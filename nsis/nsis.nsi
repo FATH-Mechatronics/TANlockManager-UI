@@ -126,7 +126,7 @@ Function "doneBaseConfig"
       ${Else}
         ${If} $1 == 0 ;;NOTADDED
             ;SimpleFC::AddApplication "${MUI_PRODUCT}" "$INSTDIR\bin\node.exe" 0 2 "" 1
-            SimpleFC::AdvAddRule "${MUI_PRODUCT}" "${MUI_PRODUCT} REST Server (TCP)" "6" "1" "1" "7" "1" "$INSTDIR\bin\node.exe" \
+            SimpleFC::AdvAddRule "${MUI_PRODUCT}" "${MUI_PRODUCT} UI Server (TCP)" "6" "1" "1" "7" "1" "$INSTDIR\bin\node.exe" \
               "" "" "@$INSTDIR\bin\node.exe,-10000" "" ""
             Pop $0
             ${If} $0 == 1
