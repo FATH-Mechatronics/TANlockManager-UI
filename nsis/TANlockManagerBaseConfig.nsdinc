@@ -56,7 +56,7 @@ Function fnc_TANlockManagerBaseConfig_Create
   ${NSD_CreateText} 8u 61u 259u 12u ""
   Pop $hCtl_TANlockManagerBaseConfig_ClientBaseURLTextBox
 
-  ${If} $PROD_TYPE == "UI"
+  ${If} ${PROD_TYPE} == "UI"
   ${Else}
     EnableWindow $hCtl_TANlockManagerBaseConfig_ClientBaseURLTextBox 0
   ${EndIf}
@@ -73,7 +73,7 @@ Function fnc_TANlockManagerBaseConfig_Create
   ${NSD_CreateText} 8u 99u 259u 12u ""
   Pop $hCtl_TANlockManagerBaseConfig_BasepathDirRequest_Txt
 
-  ${If} $PROD_TYPE == "UI"
+  ${If} ${PROD_TYPE} == "UI"
     EnableWindow $hCtl_TANlockManagerBaseConfig_BasepathDirRequest_Txt 0
   ${Else}
   ${EndIf}
@@ -81,7 +81,7 @@ Function fnc_TANlockManagerBaseConfig_Create
   ; === BasepathDirRequest_Btn (type: Button) ===
   ${NSD_CreateButton} 269u 99u 20u 12u "..."
   Pop $hCtl_TANlockManagerBaseConfig_BasepathDirRequest_Btn
-  ${If} $PROD_TYPE == "UI"
+  ${If} ${PROD_TYPE} == "UI"
     EnableWindow $hCtl_TANlockManagerBaseConfig_BasepathDirRequest_Btn 0
   ${Else}
   ${EndIf}
