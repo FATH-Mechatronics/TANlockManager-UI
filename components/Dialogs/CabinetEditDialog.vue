@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" max-width="500px">
+    <v-dialog v-model="dialog" max-width="500px" @click:outside="clickOutside()">
         <v-card>
             <v-card-title class="headline">Edit Cabinet {{ cabinet.name }}</v-card-title>
             <v-card-text>
@@ -40,23 +40,17 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue, Prop} from "nuxt-property-decorator";
+    import {Component, Vue, Prop, Watch} from "nuxt-property-decorator";
     import TanLock from "../../model/TanLock";
     import Cabinet from "../../model/Cabinet";
     import Row from "~/model/Row";
 
     const dummyLock = new TanLock({name: "None", id: -1});
 
-    @Component({
-        async mounted() {
-            this.cabinetToEdit = new Cabinet(this.cabinet);
-        }
-    })
+    @Component
     class CabinetEditDialogComponent extends Vue {
         @Prop({default: () => new Cabinet()})
         cabinet: Cabinet;
-
-        cabinetToEdit: Cabinet = new Cabinet();
 
         @Prop({
             default: () => false
@@ -73,6 +67,13 @@
         })
         locks: TanLock[];
 
+        cabinetToEdit: Cabinet = new Cabinet();
+
+        @Watch('dialog')
+        onDialogChange(value: boolean, oldValue: boolean) {
+            this.cabinetToEdit = new Cabinet(this.cabinet);
+        }
+
         filteredLock(exclude, addDummy = true) {
             let filtered = this.locks.filter(l => l.id !== exclude);
             if (addDummy) {
@@ -81,8 +82,8 @@
             return filtered;
         }
 
-        clickOutside() {
-            this.$emit("closed", null);
+        clickOutside(cabinet: Cabinet | null = null) {
+            this.$emit("closed", cabinet);
         }
 
         submitCabinet() {
@@ -101,7 +102,8 @@
                         this.cabinetToEdit
                     )
                     .then(res => {
-                        location.reload();
+                        this.clickOutside(new Cabinet(res.data));
+                        //location.reload();
                     })
                     .catch(err => {
                         alert("Error Occured: " + err);
@@ -113,7 +115,8 @@
                         this.cabinetToEdit
                     )
                     .then(res => {
-                        location.reload();
+                        this.clickOutside(new Cabinet(res.data));
+                        //location.reload();
                     })
                     .catch(err => {
                         alert("Error Occured: " + err);
@@ -128,6 +131,7 @@
                         `/data/cabinet/${this.cabinetToEdit.id}`
                     )
                     .then(res => {
+                        this.clickOutside();
                         this.$router.back();
                     });
             } else {

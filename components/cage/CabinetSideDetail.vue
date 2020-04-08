@@ -1,5 +1,5 @@
 <template>
-  <div column style="text-align: center; display: inline-block; white-space: wrap;">
+  <div column style="text-align: center; display: inline-block; white-space: pre-wrap;">
     <v-layout>
       <v-card class="secondary lighten-2">
         <v-card-title>
@@ -28,8 +28,8 @@
             </v-btn>
           </div>
           <v-layout>
-            <DoorContact :lock="lock" style="display:inline-box;" class="mr-3"/>
-            <SensorValues :lock="lock" style="display:inline-box;"/>
+            <DoorContact :lock="lock" style="display:inline-block;" class="mr-3"/>
+            <SensorValues :lock="lock" style="display:inline-block;"/>
           </v-layout>
         </v-card-text>
       </v-card>

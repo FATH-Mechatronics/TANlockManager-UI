@@ -1,25 +1,33 @@
 <template>
-  <v-layout column xs12>
-    <v-flex>
-      <CageAdder/>
-    </v-flex>
-  </v-layout>
+    <v-layout column xs12>
+        <v-flex>
+            <CageEditDialog :dialog="true" @closed="dialogClosed"/>
+        </v-flex>
+    </v-layout>
 </template>
 
 <script lang="ts">
-  import CageAdder from "../../components/cage/CageAdder.vue";
-  import {Component, Vue} from "vue-property-decorator";
+    import CageEditDialog from "../../components/Dialogs/CageEditDialog.vue";
+    import {Component, Vue} from "vue-property-decorator";
+    import Cage from "~/model/Cage";
 
-  @Component({
-    components: {
-      CageAdder
-    },
-    head:{
-      title: "Cages"
+    @Component({
+        components: {
+            CageEditDialog
+        },
+        head: {
+            title: "Cages"
+        }
+    })
+    class CagesPage extends Vue {
+        dialogClosed(newCage: Cage) {
+            if (newCage !== null) {
+                location.reload();
+            } else {
+                this.$router.push("/");
+            }
+        }
     }
-  })
-  class CagesPage extends Vue {
-  }
 
-  export default CagesPage;
+    export default CagesPage;
 </script>

@@ -10,6 +10,10 @@
                         <v-btn :style="hiddenStyle(this.$user.get(),`WRITE_CAGE`,'cage'+cage.id)" class="warning mr-2"
                                @click.stop="editDialog=true">Edit
                         </v-btn>
+                        <v-btn :style="hiddenStyle(this.$user.get(),`WRITE_CAGE`,'cage'+cage.id)"
+                               :hidden="rows.length > 0" class="error mr-2"
+                               @click.stop="deleteDialog = true">Delete
+                        </v-btn>
                         <v-btn :style="hiddenStyle(this.$user.get(),'WRITE_ROW')"
                                @click.stop="newRowDialog=true" class="success">Add Row
                         </v-btn>
@@ -20,9 +24,24 @@
                 </v-card>
             </v-flex>
         </v-layout>
-        <RowEditDialog :rows="rows" :cage="cage" :dialog="newRowDialog" @closed="newRowDialog = false"/>
+        <CageEditDialog :cage="cage" :dialog="editDialog" @closed="closedEditDialog"/>
+        <RowEditDialog :rows="rows" :cage="cage" :dialog="newRowDialog" @closed="closedNewRowDialog"/>
+        <v-dialog v-model="deleteDialog" max-width="500px">
+            <v-card>
+                <v-card-title class="headline">
+                    Delete Cage <b>{{cage.name}}</b>
+                </v-card-title>
+                <v-card-text>
+                    <p>Really Delete the Cage?</p>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer/>
+                    <v-btn @click.stop="deleteDialog = false">Cancel</v-btn>
+                    <v-btn color="error" @click.stop="deleteCage()">Delete</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </div>
-
 </template>
 <script lang="ts">
     import {Component, Prop, Vue} from "vue-property-decorator";
@@ -31,9 +50,11 @@
     import RowEditDialog from "~/components/Dialogs/RowEditDialog.vue";
     import permissionHide from "~/commons/permissionHide";
     import Row from "~/model/Row";
+    import CageEditDialog from "~/components/Dialogs/CageEditDialog.vue";
 
     @Component({
         components: {
+            CageEditDialog,
             RowListComponent,
             RowEditDialog
         }
@@ -50,11 +71,34 @@
 
         editDialog: boolean = false;
         newRowDialog: boolean = false;
+        deleteDialog: boolean = false;
 
         mounted() {
             return this.$axios.get(`/data/row?cage=${this.cage.id}`).then(res => {
                 this.rows = res.data.map(r => new Row(r));
             });
+        }
+
+        closedNewRowDialog(newRow: Row) {
+            this.newRowDialog = false;
+            if (newRow != null) {
+                this.rows.push(newRow);
+            }
+        }
+
+        closedEditDialog(newCage: Cage) {
+            this.editDialog = false;
+            if (newCage != null) {
+                this.cage = newCage;
+            }
+        }
+
+        deleteCage() {
+            this.$axios.delete(`/data/cage/${this.cage.id}`)
+                .then((res) => {
+                    this.deleteDialog = false;
+                    location.href = "/";
+                });
         }
 
         hiddenStyle = permissionHide.hiddenStyle;

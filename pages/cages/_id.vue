@@ -8,7 +8,6 @@
 
 <script lang="ts">
     import CageComponent from "../../components/cage/CageComponent.vue"
-    import RowList from "../../components/row/RowList.vue";
     import {Component, Vue} from "vue-property-decorator";
     import Cage from "~/model/Cage";
 
@@ -24,8 +23,7 @@
 
     @Component({
         components: {
-            CageComponent,
-            RowList
+            CageComponent
         },
         head: {
             title: `Cage`

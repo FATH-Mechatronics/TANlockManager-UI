@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" max-width="500px" @click:outside="clickOutside">
+  <v-dialog v-model="dialog" max-width="500px" @click:outside="clickOutside()">
     <v-card :style="gradientStyle">
       <v-card-title class="headline">Edit Row "{{row.name}}"</v-card-title>
       <v-card-text>
@@ -11,11 +11,13 @@
         <v-radio-group v-model="editRow.gradient" row>
           <v-radio label="Red to Blue" value="#ff000066, #00000000, #00000000, #0000ff66"></v-radio>
           <v-radio label="Blue to Red" value="#0000ff66, #00000000, #00000000, #ff000066"></v-radio>
-          <v-radio label="None" value=""/>
+          <v-radio label="None" value="transparent"/>
         </v-radio-group>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="saveRow()">Save Row</v-btn>
+        <v-btn @click="clickOutside()">Cancel</v-btn>
+        <v-spacer />
+        <v-btn @click="saveRow()">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -43,27 +45,21 @@
     })
     cage: Cage;
 
-    @Prop({
-      default: () => []
-    })
-    rows: Row[];
+    editRow: Row = new Row(this.row);
 
-    editRow: Row | null = null;
-
-    beforeMount(){
+    @Watch('dialog')
+    onDialogChange(val: boolean, oldValue: boolean){
       this.editRow = new Row(this.row);
       this.editRow.cage_id = this.cage.id;
     }
 
     @Watch('row')
     onRowChange(val: Row, oldVal: Row){
-      console.log("RowChange");
       this.editRow = new Row(val);
     }
 
     @Watch('cage')
     onCageChange(val: Cage, oldVal: Cage){
-      console.log("CageChange");
       this.editRow.cage_id = val.id;
     }
 
@@ -74,12 +70,7 @@
                   .put(`/data/row/${this.row.id}`, this.editRow)
                   .then((res) => {
                     const newRow = new Row(res.data);
-                    this.row.id = newRow.id;
-                    this.row.cage_id = newRow.cage_id;
-                    this.row.name = newRow.name;
-                    this.row.gradient = newRow.gradient;
-                    this.row.order = newRow.order;
-                    this.clickOutside();
+                    this.clickOutside(newRow);
                   })
                   .catch(message => alert("Some Error Occured"));
         }else{
@@ -87,8 +78,7 @@
           .post(`/data/row`, this.editRow)
           .then((res) => {
             const newRow = new Row(res.data);
-            this.rows.push(newRow);
-            this.clickOutside();
+            this.clickOutside(newRow);
           })
           .catch(err => alert("Some Error Occured"));
         }
@@ -98,13 +88,18 @@
     }
 
     get gradientStyle() {
-      if (this.editRow.gradient != undefined && this.editRow.gradient.length > 0)
+      if (this.editRow.gradient !== "transparent") {
         return `background-image: linear-gradient(${this.editRow.gradient});`;
+      }
       return "";
     }
 
-    clickOutside() {
-      this.$emit("closed", null);
+    set gradientStyle(value){
+      console.log("NewGrad", value);
+    }
+
+    clickOutside(row: Row|null = null) {
+      this.$emit("closed", row);
     }
   }
 
