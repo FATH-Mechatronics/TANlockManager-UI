@@ -2,13 +2,13 @@
   <div>
     <v-card :style="gradientStyle">
       <v-card-title class="headline">
-        {{cage.name}}
+        {{row.name}}
         <v-spacer/>
         <v-btn
           @click.stop="editDialog=true"
           class="warning mr-2"
           small
-          :style="hiddenStyle(this.$user.get(),'WRITE_CAGE','cage_'+cage.id)"
+          :style="hiddenStyle(this.$user.get(),'WRITE_ROW','row_'+row.id)"
         >
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
@@ -17,14 +17,14 @@
           class="error mr-2"
           small
           :hidden="cabinets.length > 0"
-          :style="hiddenStyle(this.$user.get(),'WRITE_CAGE','cage_'+cage.id)"
+          :style="hiddenStyle(this.$user.get(),'WRITE_ROW','row_'+row.id)"
         >
           <v-icon>mdi-delete</v-icon>
         </v-btn>
         <v-btn
           @click.stop="openAddDialog()"
           small
-          :style="hiddenStyle(this.$user.get(),['WRITE_CAGE','WRITE_CABINET'],null,'and')"
+          :style="hiddenStyle(this.$user.get(),['WRITE_ROW','WRITE_CABINET'],null,'and')"
         >
           <v-icon>mdi-plus</v-icon>
         </v-btn>
@@ -44,16 +44,17 @@
     <CabinetEditDialog
       :cabinet="addCabinet"
       :dialog="addDialog"
-      :cages="cages"
+      :cage="cage"
+      :rows="rows"
       :locks="locks"
       @closed="addDialog = false"
     />
-    <CageEditDialog :cage="cage" :dialog="editDialog" @closed="editDialog = false"/>
+    <RowEditDialog :cage="cage" :row="row" :dialog="editDialog" @closed="editDialog = false"/>
     <v-dialog v-model="deleteDialog" max-width="500px">
       <v-card>
         <v-card-title class="headline">
           Delete Row
-          <b>{{cage.name}}</b>
+          <b>{{row.name}}</b>
         </v-card-title>
         <v-card-text>
           <p>Really Delete the Row?</p>
@@ -61,7 +62,7 @@
         <v-card-actions>
           <v-spacer/>
           <v-btn @click.stop="deleteDialog = false">Cancel</v-btn>
-          <v-btn color="error" @click.stop="deleteCage()">Delete</v-btn>
+          <v-btn color="error" @click.stop="deleteRow()">Delete</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -69,33 +70,47 @@
 </template>
 
 <script lang="ts">
-  import CabinetComponent from "./Cabinet.vue";
+  import CabinetComponent from "../cage/Cabinet.vue";
   import CabinetEditDialog from "../Dialogs/CabinetEditDialog.vue";
-  import CageEditDialog from "../Dialogs/CageEditDialog.vue";
+  import RowEditDialog from "../Dialogs/RowEditDialog.vue";
   import Cabinet from "../../model/Cabinet";
   import {Component, Vue, Prop} from "vue-property-decorator";
   import permissionHide from "../../commons/permissionHide";
   import TanLock from "../../model/TanLock";
+  import Row from "~/model/Row";
+  import Cage from "~/model/Cage";
 
   @Component({
     components: {
       CabinetComponent,
       CabinetEditDialog,
-      CageEditDialog
+      RowEditDialog
     },
     async mounted() {
       return this.$axios
-        .get(`/data/cage/${this.cage.id}/cabinet`)
+        .get(`/data/cabinet?row=${this.row.id}`)
         .then(res => (this.cabinets = res.data));
     }
   })
-  class CageComponent extends Vue {
+  class RowComponent extends Vue {
+    @Prop({
+      default: new Cage
+    })
+    cage: Cage;
+
     @Prop({
       default: () => {
         return {name: "null", id: -1};
       }
     })
-    cage: any;
+    row: Row;
+
+    @Prop({
+      default: () => {
+        return [];
+      }
+    })
+    rows: Row[];
 
     @Prop({
       default: () => {
@@ -103,13 +118,6 @@
       }
     })
     locks: TanLock[];
-
-    @Prop({
-      default: () => {
-        return [];
-      }
-    })
-    cages: any[];
 
     cabinets: Cabinet[] = [];
 
@@ -119,11 +127,12 @@
     deleteDialog = false;
     editDialog = false;
 
-    deleteCage() {
+    deleteRow() {
       this.$axios
-        .delete(`/data/cage/${this.cage.id}`)
+        .delete(`/data/row/${this.row.id}`)
         .then(res => {
-          location.reload();
+          this.rows.splice(this.rows.findIndex(r=>r.id === this.row.id),1);
+          this.deleteDialog = false;
         })
         .catch(err => {
           alert("Error Occured: " + err);
@@ -133,7 +142,8 @@
     openAddDialog() {
       this.addCabinet = new Cabinet();
       //this.addCabinet.cage = this.cage.id;
-      this.addCabinet.name = "New Cabinet for " + this.cage.name;
+      this.addCabinet.name = "NEW Cabinet for " + this.row.name;
+      this.addCabinet.row_id = this.row.id;
       this.addDialog = true;
     }
 
@@ -154,21 +164,21 @@
     hiddenStyle = permissionHide.hiddenStyle;
 
     get gradientStyle() {
-      return `margin: 1em 0; background-image: linear-gradient(${this.cage.gradient});`;
+      return `margin: 1em 0; background-image: linear-gradient(${this.row.gradient});`;
     }
 
     getLocksOfCabinet(cabinet: Cabinet) {
       let lockA = this.locks.find(l => l.id === cabinet.frontLock);
       let lockB = this.locks.find(l => l.id === cabinet.backLock);
-      let locks = [lockA];
+      let cabLocks = [lockA];
       if (lockB) {
-        locks.push(lockB);
+        cabLocks.push(lockB);
       } else {
-        locks.push(null);
+        cabLocks.push(null);
       }
-      return locks;
+      return cabLocks;
     }
   }
 
-  export default CageComponent;
+  export default RowComponent;
 </script>

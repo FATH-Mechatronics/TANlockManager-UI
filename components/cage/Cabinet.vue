@@ -1,7 +1,7 @@
 <template>
   <v-layout
     column
-    style="text-align: center; padding: 0em; margin: .25em .25em; display: inline-block; white-space: wrap;"
+    style="text-align: center; padding: 0; margin: .25em .25em; display: inline-block; white-space: nowrap;"
     align-self-start
     class="secondary darken-1"
     @click.stop="goToCabinet()"
@@ -108,8 +108,7 @@
     dialog = false;
 
     get cabinetLink() {
-      console.log("Link is: " + this.cabinet.id);
-      return "/cages/cabinets/" + this.cabinet.id;
+      return "/cabinets/" + this.cabinet.id;
     }
 
     get cabinetColor() {

@@ -8,11 +8,35 @@
 
         <v-divider />
 
+        <v-list-item to="/">
+        <v-list-item-icon>
+          <v-icon>mdi-view-dashboard</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Dashboard</v-list-item-title>
+        </v-list-item-content>
+       </v-list-item>
+
+        <v-list-group prepend-icon="mdi-group" value="true">
+          <v-list-item slot="activator">
+            <v-list-item-content>
+              <v-list-item-title>Cages</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item v-for="(child, childIndex) in cages" :key="childIndex" :to="getCageLink(child)">
+            <v-list-item-icon></v-list-item-icon>
+            <v-list-item-title><v-icon small :color="child.color">mdi-circle</v-icon> {{child.name}}</v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/cages/">
+            <v-list-item-icon></v-list-item-icon>
+            <v-list-item-title><v-icon small>mdi-plus</v-icon> New Cage</v-list-item-title>
+          </v-list-item>
+        </v-list-group>
+
         <v-list-item v-for="item in sideMenu" :key="item.title" :to="item.link">
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
-
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
@@ -54,15 +78,31 @@
 
 <script lang="ts">
 import menu from "../commons/menu";
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import permissionHide from "../commons/permissionHide";
-@Component
+@Component({
+  async mounted() {
+    return this.$axios
+            .get(`/data/cage`)
+            .then(res => {
+              if (res) {
+                this.cages.push(...res.data);
+              }
+            });
+  }
+})
 class NavdrawerComponent extends Vue {
   sideMenu: Object[] = menu.sideMenu().filter(this.permFilter);
 
   actionMenu: Object[] = menu.actionMenu().filter(this.permFilter);
 
+  cages: Object[] = [];
+
   drawer: Object = null;
+
+  getCageLink(cage){
+    return "/cages/" + cage.id;
+  }
 
   logout() {
     this.$axios

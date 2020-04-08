@@ -1,18 +1,14 @@
 <template>
-  <v-card :style="hiddenStyle(this.$user.get(),'WRITE_CAGE') + gradientStyle">
-    <v-card-title class="headline">New Cabinet Row</v-card-title>
+  <v-card :style="hiddenStyle(this.$user.get(),'WRITE_CAGE')">
+    <v-card-title class="headline">New Cage</v-card-title>
     <v-card-text>
       <v-text-field label="Name" v-model="name"/>
       <v-divider/>
-      Background:
-      <v-radio-group v-model="gradient" row>
-        <v-radio label="Red to Blue" value="#ff000066, #00000000, #00000000, #0000ff66"></v-radio>
-        <v-radio label="Blue to Red" value="#0000ff66, #00000000, #00000000, #ff000066"></v-radio>
-        <v-radio label="None" value=""/>
-      </v-radio-group>
+      Color:
+      <v-color-picker :hide-inputs="true" :hide-canvas="true" v-model="color" :show-swatches="true" width="100%"></v-color-picker>
     </v-card-text>
     <v-card-actions>
-      <v-btn @click="addCage()">New Row</v-btn>
+      <v-btn @click="addCage()">New Cage</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -24,14 +20,14 @@
   @Component
   class CageAdderComponent extends Vue {
     name: string = "";
-    gradient: string = "";
+    color: string = "#FFFFFF";
 
     addCage() {
       if (this.name.length > 0) {
         this.$axios
           .post(`/data/cage`, {
             name: this.name,
-            gradient: this.gradient
+            color: this.color
           })
           .then(() => {
             location.reload();
@@ -40,12 +36,6 @@
       } else {
         alert("You are missing inputs");
       }
-    }
-
-    get gradientStyle() {
-      if (this.gradient.length > 0)
-        return `background-image: linear-gradient(${this.gradient});`;
-      return "";
     }
 
     hiddenStyle = permissionHide.hiddenStyle;

@@ -1,12 +1,23 @@
 export default {
-  sideMenu: () => [
-    {
+  /*
+      {
       'title': 'Dashboard',
       'icon': 'mdi-view-dashboard',
       'link': '/',
       'hidden': false,
       'permission': 'SYSTEM_AUTH'
     },
+      {
+      'title': 'Cages',
+      'icon': 'mdi-group',
+      'link': '/cages',
+      'hidden': false,
+      'type': 'group',
+      'children': 'cages',
+      'permission': 'SYSTEM_AUTH'
+    },
+   */
+  sideMenu: () => [
     {
       'title': 'Locks',
       'icon': 'mdi-lock',
@@ -20,13 +31,6 @@ export default {
       'link': '/newlocks',
       'hidden': false,
       'permission': 'READ_UNACCEPTED'
-    },
-    {
-      'title': 'Cages',
-      'icon': 'mdi-group',
-      'link': '/cages',
-      'hidden': false,
-      'permission': 'SYSTEM_AUTH'
     },
     {
       'title': 'Users',
@@ -45,7 +49,7 @@ export default {
   ],
   actionMenu: () => [
     {
-      'title': 'Einstellungen',
+      'title': 'Settings',
       'link': '/settings',
       'hidden': false,
       'permission': 'READ_SYSTEM_CONFIG'

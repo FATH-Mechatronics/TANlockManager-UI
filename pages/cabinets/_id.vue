@@ -26,19 +26,19 @@
 
 <script lang="ts">
   import axios from "axios";
-  import LogViewComponent from "../../../components/cage/LogView.vue";
-  import CabinetComponent from "../../../components/cage/Cabinet.vue";
-  import CabinetSideDetailComponent from "../../../components/cage/CabinetSideDetail.vue";
-  import CabinetEditDialog from "../../../components/Dialogs/CabinetEditDialog.vue";
+  import LogViewComponent from "../../components/cage/LogView.vue";
+  import CabinetComponent from "../../components/cage/Cabinet.vue";
+  import CabinetSideDetailComponent from "../../components/cage/CabinetSideDetail.vue";
+  import CabinetEditDialog from "../../components/Dialogs/CabinetEditDialog.vue";
   import {Component, Vue} from "vue-property-decorator";
-  import Cabinet from "../../../model/Cabinet";
-  import TanLock from "../../../model/TanLock";
-  import permissionHide from "../../../commons/permissionHide";
+  import Cabinet from "../../model/Cabinet";
+  import TanLock from "../../model/TanLock";
+  import permissionHide from "../../commons/permissionHide";
 
   function fetchCabinet(id, context) {
     const con = context;
     return new Promise(resolve => {
-      con.app.$axios.get(`/data/cage/0/cabinet/${id}`).then(res => {
+      con.app.$axios.get(`/data/cabinet/${id}`).then(res => {
         resolve(new Cabinet(res.data));
       });
     });
