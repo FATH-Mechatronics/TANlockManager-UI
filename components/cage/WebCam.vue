@@ -30,14 +30,7 @@
 
     toggleWindow() {
       if (this.camUrl != null) {
-        //TODO
-        alert("TODO");
-        /*if (this.newFrame) {
-          this.newFrame.close();
-          this.newFrame = null;
-        } else {
-          this.newFrame = window.open(this.camUrl);
-        }*/
+          window.open(this.camUrl);
       }
     }
 
