@@ -210,5 +210,8 @@ fabric.properties
 
 # End of https://www.gitignore.io/api/node,nuxtjs,webstorm
 
+#NUXT
+/static/sw.js
+
 dist_install
 node_download
