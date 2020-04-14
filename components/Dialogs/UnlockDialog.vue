@@ -16,6 +16,7 @@
             :style="hiddenStyle(this.$user.get(), 'INPUT_LOCK', 'lock_'+lock.id)"
           ></v-radio>
         </v-radio-group>
+        <v-text-field v-model="reason" label="Reason" />
         <v-text-field v-model="openPin" label="PIN" type="password"/>
       </v-card-text>
 
@@ -53,6 +54,7 @@
   class UnlockDialogComponent extends Vue {
     openType = "";
     openPin = "";
+    reason = "";
 
     @Prop({
       default: () => {
@@ -72,7 +74,8 @@
       this.$axios
         .post(`/data/lock/${this.lock.id}/open`, {
           pin: this.openPin,
-          type: this.openType
+          type: this.openType,
+          reason: this.reason
         })
         .then(resp => {
           this.$emit("closed", resp.data);
