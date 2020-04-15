@@ -31,16 +31,16 @@
         }
 
         disabled(): boolean {
-            if (
+            /*if (
                 (this.lock.useDoor_1 && this.lock.door_1 == false) ||
                 (this.lock.useDoor_2 && this.lock.door_2 == false)
-            ) {
+            ) {*/
                 return (
                     this.camUrl === "" || this.camUrl === undefined || this.camUrl === null
                 );
-            } else {
+            /*} else {
                 return true;
-            }
+            }*/
         }
     }
 
