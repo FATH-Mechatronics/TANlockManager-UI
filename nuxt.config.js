@@ -27,7 +27,10 @@ export default {
   /*
   ** Global CSS
   */
-  css: [],
+  css: [
+      '~/static/css/mdi-font.css',
+      '~/static/css/roboto-font.css'
+  ],
   /*
   ** Plugins to load before mounting the App
   */
@@ -77,7 +80,8 @@ export default {
           success: colors.green.accent3
         }
       }*/
-    }
+    },
+    defaultAssets: false
   },
   /*
   ** Build configuration
