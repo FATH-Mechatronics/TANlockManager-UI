@@ -50,12 +50,14 @@ export default {
   actionMenu: () => [
     {
       'title': 'Settings',
+      'icon': 'mdi-cog',
       'link': '/settings',
       'hidden': false,
       'permission': 'READ_SYSTEM_CONFIG'
     },
     {
       'title': 'About',
+      'icon': 'mdi-information',
       'link': '/about',
       'hidden': false,
       'permission': 'SYSTEM_AUTH'

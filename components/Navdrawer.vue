@@ -56,24 +56,36 @@
                 <img src="~/assets/img/tanlock-logo.png" style="height: 1em;"/> Manager
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-toolbar-items class="hidden-sm-and-down">
+           <!--<v-toolbar-items class="hidden-sm-and-down">
                 <v-btn v-for="(item, index) in actionMenu" :key="index" :to="item.link">{{ item.title }}</v-btn>
                 <v-btn @click.stop="logout" :style="hiddenStyle(this.$user.get())">Logout</v-btn>
-            </v-toolbar-items>
+            </v-toolbar-items>-->
             <!--<v-toolbar-items class="hidden-md-and-up">-->
             <!--<v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>-->
-            <v-menu class="hidden-md-and-up">
+            <!--<v-menu class="hidden-md-and-up">-->
+            <v-menu>
                 <template v-slot:activator="{ on }">
-                    <v-btn icon v-on="on" class="hidden-md-and-up">
+                    <v-btn depressed large v-on="on">
+                        <b>{{ userName }}</b>
                         <v-icon>mdi-dots-vertical</v-icon>
                     </v-btn>
                 </template>
                 <v-list>
                     <v-list-item v-for="(item, index) in actionMenu" :key="index" :to="item.link">
-                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                        <v-list-item-icon>
+                            <v-icon>{{ item.icon }}</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>{{ item.title }}</v-list-item-title>
+                        </v-list-item-content>
                     </v-list-item>
                     <v-list-item @click.stop="logout" :style="hiddenStyle(this.$user.get())">
-                        <v-list-item-title>Logout</v-list-item-title>
+                        <v-list-item-icon>
+                            <v-icon>mdi-logout</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>Logout</v-list-item-title>
+                        </v-list-item-content>
                     </v-list-item>
                 </v-list>
             </v-menu>
@@ -116,6 +128,8 @@
         drawer: Object = null;
 
         newCageDialog = false;
+
+        userName = (this.$user.get()?this.$user.get().user:"NOT LOGGED IN");
 
         getCageLink(cage) {
             return "/cages/" + cage.id;
