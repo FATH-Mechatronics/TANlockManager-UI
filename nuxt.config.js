@@ -1,9 +1,17 @@
 //import colors from 'vuetify/es5/util/colors'
 
+//import path from 'path'
+//import fs from 'fs'
+
 export default {
   mode: 'spa',
   server: {
-    port: 4344
+    port: 4344,
+    host: '0.0.0.0', // default: localhost,
+    /*https: {
+      key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
+      cert: fs.readFileSync(path.resolve(__dirname, 'server.crt'))
+    }*/
   },
   /*
   ** Headers of the page
