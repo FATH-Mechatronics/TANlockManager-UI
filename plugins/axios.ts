@@ -12,7 +12,7 @@ const ACCESS_TOKEN = 'ACCESS_TOKEN';
 const REFRESH_TOKEN = 'REFRESH_TOKEN';
 
 const basePort = 4343;
-const baseURL = `${location.protocol}//${location.hostname}:${basePort}/`;
+const baseURL = `https://${location.hostname}:${basePort}/`; //`${location.protocol}//${location.hostname}:${basePort}/`;
 
 class TokenStore {
 
