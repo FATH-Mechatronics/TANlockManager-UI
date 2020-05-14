@@ -52,8 +52,10 @@
         res.data.forEach(element => {
           settings[element.name] = element.value;
         });
-        this.openType = settings["openDefaultMethod"]
-        this.openPin = settings["openDefaultPin"]
+        this.defaultType = settings["openDefaultMethod"]
+        this.openType = this.defaultType;
+        this.defaultPin = settings["openDefaultPin"]
+        this.openPin= this.defaultPin;
       });
     },
     beforeMount() {
@@ -62,6 +64,8 @@
   class UnlockDialogComponent extends Vue {
     openType = "";
     openPin = "";
+    defaultType = "";
+    defaultPin = "";
     openReason = "";
 
     @Prop({
@@ -93,7 +97,8 @@
         .catch(err => {
         })
         .finally(() => {
-          this.openPin = "";
+          this.openPin = this.defaultPin;
+          this.openType = this.defaultType;
           this.openReason = "";
         });
     }
