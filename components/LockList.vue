@@ -84,7 +84,7 @@
           >
             <template
               v-slot:item.timestamp="{ item }"
-            >{{ new Date(item.timestamp).toLocaleString() }}
+            >{{ new Date(item.timestamp * 1000).toLocaleString() }}
             </template>
           </v-data-table>
         </v-card-text>
