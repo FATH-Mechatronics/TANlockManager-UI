@@ -58,6 +58,27 @@
       </v-card>
 
       <v-card>
+        <v-card-title class="headline mt-2">Open Settings</v-card-title>
+        <v-card-text>
+          <v-form>
+            <v-select v-model="settings['openDefaultMethod']" :items="openMethods" label="Default OpenMessage"/>
+            <span>
+              *Default method when Opening a TANlock from UI
+              <br/>
+              <br/>
+            </span>
+            <v-divider/>
+            <v-text-field v-model="settings['openDefaultPin']" label="Default PIN"/>
+            <span>
+              *Default PIN when Opening a TANlock
+              <br/>
+              <br/>
+            </span>
+          </v-form>
+        </v-card-text>
+      </v-card>
+
+      <v-card>
         <v-card-title class="headline mt-2">Monitoring Settings</v-card-title>
         <v-card-text>
           <v-form>
@@ -153,6 +174,8 @@
   class SettingsPage extends Vue {
     settings: Object = {};
     plugins: String[] = [];
+
+    openMethods: String[]=["prepareopen", "input"];
 
     save(): void {
       Object.keys(this.settings).forEach(key => {
