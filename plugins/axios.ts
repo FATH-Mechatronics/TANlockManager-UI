@@ -11,8 +11,14 @@ const LOGIN_PAGE = '/login';
 const ACCESS_TOKEN = 'ACCESS_TOKEN';
 const REFRESH_TOKEN = 'REFRESH_TOKEN';
 
-const basePort = 4343;
-const baseURL = `https://${location.hostname}:${basePort}/`; //`${location.protocol}//${location.hostname}:${basePort}/`;
+const basePort = process.env.apiPort || 4343;
+let baseURL;
+if(process.env.apiBaseUrl){
+    baseURL = process.env.apiBaseUrl;
+}else{
+    let scheme = process.env.apiSecure ? "https:" : location.protocol;
+    baseURL = `${scheme}//${location.hostname}:${basePort}/`;
+}
 
 class TokenStore {
 
