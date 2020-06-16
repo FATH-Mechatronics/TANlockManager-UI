@@ -76,7 +76,9 @@
       {title: "30 Min", val: 30 * 60_000},
       {title: "1 H", val: 60 * 60_000},
       {title: "2 H", val: 2 * 60 * 60_000},
-      {title: "5 H", val: 5 * 60 * 60_000}
+      {title: "5 H", val: 5 * 60 * 60_000},
+      {title: "8 H", val: 8 * 60 * 60_000},
+      {title: "12 H", val: 12 * 60 * 60_000}
     ];
 
     @Watch("dialog")
