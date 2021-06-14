@@ -40,7 +40,7 @@
       });
     },
     beforeMount() {
-      this.$socketio.on("logEvent", (msg) => {
+      this.$socketio.socket.on("logEvent", (msg) => {
         this.logs.push(msg);
       });
     }

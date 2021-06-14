@@ -1,8 +1,10 @@
+import {Socket} from "socket.io-client";
+
 export {}
 
 declare global {
   namespace SocketIOClient {
-    interface Socket {
+    interface MySocket extends Socket{
       doReconnect?: boolean;
     }
   }

@@ -117,7 +117,7 @@
         });*/
     },
     beforeMount() {
-      /*this.$socketio.on("tanlockEvent", msg => {
+      /*this.$socketio.socket.on("tanlockEvent", msg => {
         if (msg != undefined) {
           if (
             (this.suffix === "" && msg.accepted === true) ||

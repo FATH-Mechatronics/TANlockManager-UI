@@ -81,7 +81,7 @@ import ExtendedLoggerType from '../../model/ExtendedLoggerType'
         })
     },
     beforeMount () {
-      this.$socketio.on('cabinetLog', (msg: CabinetLogEntry) => {
+      this.$socketio.socket.on('cabinetLog', (msg: CabinetLogEntry) => {
         console.log(msg)
         if (msg.type === ExtendedLoggerType.TYPENEWIMAGE) {
           // UPDATE IMAGE

@@ -34,7 +34,7 @@
         })
           .catch(err => {
           });
-        this.$socketio.on("sensorUpdate", (msg: CabinetLogEntry) => {
+        this.$socketio.socket.on("sensorUpdate", (msg: CabinetLogEntry) => {
           if (msg != undefined) {
             if (this.lock.id === msg.lock_id) {
               this.sensors.splice(0);
@@ -53,7 +53,7 @@
       }
     },
     beforeMount() {
-      /*this.$socketio.on("tanlockEvent", msg => {
+      /*this.$socketio.socket.on("tanlockEvent", msg => {
         if (msg != undefined && msg.accepted === true) {
           if (this.cabinet.frontLock === msg.ip) {
             this.lockstate.front = msg.state;

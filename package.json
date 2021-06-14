@@ -12,12 +12,11 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/pwa": "^3.0.0-0",
-    "@types/socket.io-client": "^1.4.32",
-    "axios-auth-refresh": "^2.2.1",
+    "axios-auth-refresh": "^3.1.0",
     "nuxt": "^2.0.0",
-    "socket.io-client": "^2.3.0"
+    "socket.io-client": "^4.1.2"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.8.3",

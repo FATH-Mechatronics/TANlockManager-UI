@@ -65,7 +65,7 @@
     async mounted() {
     },
     beforeMount() {
-      this.$socketio.on("tanlockEvent", msg => {
+      this.$socketio.socket.on("tanlockEvent", msg => {
         if (msg != undefined && msg.accepted === true) {
           if (this.lock.id == msg.id) {
             this.lock.state = msg.state;

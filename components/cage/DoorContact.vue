@@ -36,7 +36,7 @@
           })
         );*/
 
-      this.$socketio.on("tanlockEvent", (msg: TanLock) => {
+      this.$socketio.socket.on("tanlockEvent", (msg: TanLock) => {
         if (msg != undefined && msg.accepted === true) {
           if (this.lock.id === msg.id) {
             this.lock.door_1 = msg.door_1;

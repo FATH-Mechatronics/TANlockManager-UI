@@ -1,4 +1,4 @@
-import io from "socket.io-client";
+import {io, Socket} from "socket.io-client";
 
 
 const ACCESS_TOKEN = "ACCESS_TOKEN";
@@ -6,7 +6,16 @@ const ACCESS_TOKEN = "ACCESS_TOKEN";
 const basePort = 4343;
 const baseURL = `${location.protocol.replace("http", "ws")}//${location.hostname}:${basePort}/`;
 
+class MySocket {
+  constructor(socket: Socket) {
+    this.socket = socket;
+  }
+  public socket: Socket;
+  public doReconnect: boolean = false;
+}
+
 const socket = io(baseURL);
+const mySocket = new MySocket(socket);
 
 function connectToWs() {
   socket.on('authenticated', function () {
@@ -15,11 +24,11 @@ function connectToWs() {
   socket.on('unauthorized', function (err) {
     console.log("There was an error with the authentication:", err.message);
     if (err.message === "SocketAuth Token Invalid") {
-      socket.doReconnect = false;
+      mySocket.doReconnect = false;
     }
   });
   socket.on('disconnect', () => {
-    if (socket.doReconnect) {
+    if (mySocket.doReconnect) {
       console.log("Disconnect, RECONNECT in .5 Sec");
       setTimeout(() => socket.open(), 500);
     } else {
@@ -28,7 +37,7 @@ function connectToWs() {
   });
   socket.on('connect', function () {
     socket.emit('authentication', {token: localStorage.getItem(ACCESS_TOKEN)});
-    socket.doReconnect = true;
+    mySocket.doReconnect = true;
   });
 }
 
@@ -37,18 +46,18 @@ import {Plugin} from '@nuxt/types'
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $socketio: SocketIOClient.Socket
+    $socketio: MySocket
   }
 }
 
 declare module '@nuxt/types' {
   interface Context {
-    $socketio: SocketIOClient.Socket
+    $socketio: MySocket
   }
 }
 
 const socketioPlugin: Plugin = (context, inject) => {
-  inject('socketio', socket);
+  inject('socketio', mySocket);
 };
 
 export default socketioPlugin;

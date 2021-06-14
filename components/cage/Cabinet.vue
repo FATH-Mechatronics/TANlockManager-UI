@@ -60,7 +60,7 @@
       });
     },
     beforeMount() {
-      this.$socketio.on("tanlockEvent", msg => {
+      this.$socketio.socket.on("tanlockEvent", msg => {
         if (msg != undefined && msg.accepted === true) {
           if (this.cabinet.frontLock === msg.id) {
             this.locks[0] = msg;
@@ -72,7 +72,7 @@
         }
       });
 
-      this.$socketio.on("sensorUpdate", (msg: CabinetLogEntry) => {
+      this.$socketio.socket.on("sensorUpdate", (msg: CabinetLogEntry) => {
         if (msg != undefined) {
           if (this.cabinet.frontLock === msg.lock_id) {
             this.rawSensors.front = msg.value;
