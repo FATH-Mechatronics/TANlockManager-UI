@@ -66,35 +66,35 @@
         return [];
       }
     })
-    options: any[];
+    options!: any[];
 
     @Prop({
       default: () => {
         return [];
       }
     })
-    choosenOptions: any[];
+    choosenOptions!: any[];
 
     @Prop({
       default: () => {
         return "Value";
       }
     })
-    titleLeft: string;
+    titleLeft!: string;
 
     @Prop({
       default: () => {
         return "Options";
       }
     })
-    titleRight: string;
+    titleRight!: string;
 
     @Prop({
       default: () => {
         return "val";
       }
     })
-    value: string;
+    value!: string;
 
     @Prop({
       default: () => {

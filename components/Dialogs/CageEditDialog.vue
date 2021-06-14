@@ -34,7 +34,7 @@
         @Prop({
             default: () => new Cage()
         })
-        cage: Cage;
+        cage!: Cage;
 
         editCage: Cage = new Cage(this.cage);
 

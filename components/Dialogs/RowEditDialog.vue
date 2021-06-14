@@ -33,17 +33,17 @@
     @Prop({
       default: false
     })
-    dialog: boolean;
+    dialog!: boolean;
 
     @Prop({
       default: () => new Row()
     })
-    row: Row;
+    row!: Row;
 
     @Prop({
       default: () => new Cage()
     })
-    cage: Cage;
+    cage!: Cage;
 
     editRow: Row = new Row(this.row);
 
