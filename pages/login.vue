@@ -36,7 +36,7 @@
       this.$axios
         .post("/auth/login", {user: this.user, password: this.password})
         .then(res => {
-          this.$socketio.open();
+          this.$socketio.socket.open();
           this.$router.push("/")
         })
         .catch(err => (this.err = true));
@@ -45,7 +45,7 @@
     clearCredentials(): void {
       localStorage.clear();
       this.$socketio.doReconnect = false;
-      this.$socketio.close();
+      this.$socketio.socket.close();
     }
   }
 

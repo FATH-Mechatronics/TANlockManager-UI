@@ -4,7 +4,8 @@
 //import fs from 'fs'
 
 export default {
-  mode: 'spa',
+  ssr: false,
+  target: 'static',
   server: {
     port: 4344,
     host: '0.0.0.0', // default: localhost,

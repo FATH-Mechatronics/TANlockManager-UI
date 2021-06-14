@@ -31,7 +31,7 @@
         });
     },
     beforeMount() {
-      this.$socketio.on("tanlockEvent", msg => {
+      this.$socketio.socket.on("tanlockEvent", msg => {
         if (msg != undefined) {
           let l: TanLock = this.locks.find(obj => obj.id === msg.id);
           if (l != undefined) {
