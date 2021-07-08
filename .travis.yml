@@ -17,9 +17,10 @@ script:
 - yarn install
 - yarn build
 - mkdir -p ./dist_install/bin
-- cp -r ./.nuxt ./dist_install/bin && cp -r ./node_modules ./dist_install/bin && cp
-  ./nuxt.config.js ./dist_install/bin && cp ./package.json ./dist_install/bin && cp
-  ./static/favicon.ico ./dist_install/bin
+- cp -r ./.nuxt ./dist_install/bin && cp -r ./node_modules ./dist_install/bin &&
+  cp -r ./dist ./dist_install/bin &&
+  cp ./nuxt.config.js ./dist_install/bin && cp ./package.json ./dist_install/bin &&
+  cp ./static/favicon.ico ./dist_install/bin
 - mkdir -p node_download && wget -q $NODE_DOWNLOAD_URL -O ./node_download/node_rel.zip
   && cd ./node_download && unzip node_rel.zip 1>/dev/null && cd $TRAVIS_BUILD_DIR
 - cp ./node_download/node-*/node.exe ./dist_install/bin
