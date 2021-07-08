@@ -2,7 +2,7 @@
 
 > TANlockManager WebUI
 
-[![Build Status](https://travis-ci.org/FATH-Mechatronics/TANlockManager-UI.svg?branch=master)](https://travis-ci.org/FATH-Mechatronics/TANlockManager-UI)
+[![Build Status](https://travis-ci.com/FATH-Mechatronics/TANlockManager-UI.svg?branch=master)](https://travis-ci.com/FATH-Mechatronics/TANlockManager-UI)
 
 ## Release Packages
 
