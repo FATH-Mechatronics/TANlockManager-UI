@@ -16,6 +16,7 @@ script:
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 - yarn install
 - yarn build
+- yarn generate
 - mkdir -p ./dist_install/bin
 - cp -r ./.nuxt ./dist_install/bin && cp -r ./node_modules ./dist_install/bin &&
   cp -r ./dist ./dist_install/bin &&
