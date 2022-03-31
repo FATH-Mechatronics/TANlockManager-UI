@@ -1,8 +1,8 @@
 {
   "name": "tanlockmanager-ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TANlockManager WebUI",
-  "author": "Geek in Business GmbH",
+  "author": "Fath Mechatronics GmbH",
   "private": true,
   "scripts": {
     "dev": "nuxt",

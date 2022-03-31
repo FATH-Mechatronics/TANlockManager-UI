@@ -3,6 +3,8 @@
 //import path from 'path'
 //import fs from 'fs'
 
+import {version} from './package.json'
+
 export default {
   ssr: false,
   target: 'static',
@@ -20,7 +22,10 @@ export default {
   env: {
     // apiBaseUrl: "https://123.123.123.123:4343/, // Overwrite API BaseURL,
     apiSecure: true, // Use HTTPs for API BaseURL (if not overwrite)
-    // apiPort: 4343, // OverwriteAPI Port
+    // apiPort: 4343, // OverwriteAPI Port,
+
+
+    appVersion: version,
   },
   /*
   ** Headers of the page

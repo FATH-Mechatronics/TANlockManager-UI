@@ -2,9 +2,9 @@
     <v-app>
         <Navdrawer/>
         <v-container>
-            <v-content>
+            <v-main>
                 <nuxt/>
-            </v-content>
+            </v-main>
         </v-container>
     </v-app>
 </template>

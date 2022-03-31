@@ -1,9 +1,9 @@
 <template>
     <v-app>
         <v-container>
-            <v-content column style="text-align: center; margin: 20% 5%;">
+            <v-main column style="text-align: center; margin: 20% 5%;">
                 <nuxt/>
-            </v-content>
+            </v-main>
         </v-container>
     </v-app>
 </template>
