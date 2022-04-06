@@ -59,7 +59,8 @@ export default {
   plugins: [
     '~/plugins/axios',
     '~/plugins/socket.io',
-    '~/plugins/userProvider'
+    '~/plugins/userProvider',
+    `~/plugins/filters`
   ],
   /*
   ** Nuxt.js dev-modules

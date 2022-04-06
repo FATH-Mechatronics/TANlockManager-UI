@@ -8,7 +8,7 @@
       hide-default-footer
       dense
     >
-      <template v-slot:item.value="{ item }">{{ item.value + getSensorScale(item) }}</template>
+      <template v-slot:item.value="{ item }">{{ item.value | fixed(2) }} {{ getSensorScale(item) }}</template>
     </v-data-table>
   </v-layout>
 </template>
